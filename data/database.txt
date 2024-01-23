@@ -1,0 +1,41 @@
+
+
+
+# Create a new database and connect to it
+conn = sqlite3.connect("books.db")
+c = conn.cursor()
+
+Create a table books
+c.execute("""
+    CREATE TABLE books (
+    book_id INTEGER PRIMARY KEY,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    summary TEXT,
+    genre VARCHAR(100)
+    )
+""")
+
+#Create a table reviews
+c.execute("""
+    CREATE TABLE reviews (
+    review_id INTEGER PRIMARY KEY,
+    book_id INTEGER,
+    user VARCHAR(255),
+    rating INTEGER,
+    review_text TEXT,
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)          
+    )
+""")
+
+c.execute ("INSERT INTO books VALUES ('15', 'Divergent', 'Veronica Roth', 'On an appointed day of every year, all sixteen-year-olds must select the faction to which they will devote the rest of their lives', 'Fantasy')")
+
+c.execute("SELECT * FROM books WHERE Genre='Dystopian'")
+
+print (c.fetchone())
+
+ Commit the changes and close the connection
+conn.commit()
+conn.close()
+
+"Database 'books.db' with table 'books' created successfully."
